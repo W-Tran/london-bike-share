@@ -2,6 +2,15 @@ import pandas as pd
 
 
 def add_daily_future_averages(future, data, col):
+    """
+    Future numerical regressor values (e.g. temperature) are assumed to be an average of
+    previous year's values. For example if it was 6 degrees on 2015-01-01 and 8 degrees
+    on 2016-01-01 then the future value is assumed to 6+8/2 = 7 degrees for 2017-01-01.
+
+    When forecasting bike shares for real, this should be replaced by actual weather forecast
+    information. Simulated historical forecasts use the actual future regressor values from
+    the data.
+    """
     future, data = future.copy(), data.copy()
     historical_values = future[future.ds.isin(data.ds)].copy()
     future_values = future[~future.ds.isin(data.ds)].copy()
@@ -19,6 +28,15 @@ def add_daily_future_averages(future, data, col):
 
 
 def add_hourly_future_averages(future, data, col):
+    """
+    Future numerical regressor values (e.g. temperature) are assumed to be an average of
+    previous year's values. For example if it was 6 degrees on 2015-01-01 and 8 degrees
+    on 2016-01-01 then the future value is assumed to 6+8/2 = 7 degrees for 2017-01-01.
+
+    When forecasting bike shares for real, this should be replaced by actual weather forecast
+    information. Simulated historical forecasts use the actual future regressor values from
+    the data.
+    """
     future, data = future.copy(), data.copy()
     historical_values = future[future.ds.isin(data.ds)].copy()
     future_values = future[~future.ds.isin(data.ds)].copy()
@@ -37,7 +55,16 @@ def add_hourly_future_averages(future, data, col):
     return future
 
 
-def sample_future_weather(future, data, col):
+def sample_future_weather(future, data, col="rain_thunder_snow"):
+    """
+    Future weather indicators are sampled from previous year's weather data on
+    the same days of the year. For example if it rained (7) on 2015-01-01 and was cloudy (4)
+    on 2016-01-01 then the future weather for 2017-01-01 will be sampled from {4, 7}.
+
+    When forecasting bike shares for real, this should be replaced by actual weather forecast
+    information. Simulated historical forecasts use the actual weather indicators from
+    the data.
+    """
     future, data = future.copy(), data.copy()
     historical_values = future[future.ds.isin(data.ds)].copy()
     future_values = future[~future.ds.isin(data.ds)].copy()
